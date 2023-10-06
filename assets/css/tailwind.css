@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-gray-50;
+}
+
+.category-title {
+  @apply font-bold uppercase text-lg text-cyan-600;
+}
+
+.search-label {
+  @apply block mb-2 text-sm font-medium text-gray-900;
+}
+
+.search-input {
+  @apply bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+}
