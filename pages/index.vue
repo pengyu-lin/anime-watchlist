@@ -115,7 +115,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 //get trending
 const { data: topAnime } = await useFetch("https://api.jikan.moe/v4/top/anime");
 const top6Anime = topAnime.value.data.splice(0, 6);
@@ -161,6 +161,7 @@ const { data: years } = await useFetch("https://api.jikan.moe/v4/seasons");
 
 //season list
 const seasons = ref(["winter", "spring", "summer", "fall"]);
+
 </script>
 
 <style lang="scss" scoped></style>
