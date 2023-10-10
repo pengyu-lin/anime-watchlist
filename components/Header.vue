@@ -1,17 +1,18 @@
 <template>
   <div>
-    <header class="shadow-sm bg-white">
-      <nav class="container mx-auto p-4 flex justify-between">
+    <header
+      class="shadow-sm hover:bg-gray-800 bg-gray-800/75 transition duration-500 ease-in-out">
+      <nav class="p-4 flex justify-between">
         <nuxt-link class="font-bold" to="/">Anime Watchlist</nuxt-link>
         <ul class="flex gap-4">
           <li>
-            <nuxt-link to="/">Home</nuxt-link>
+            <nuxt-link class="text-white" to="/">Home</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="/search">Search</nuxt-link>
+            <nuxt-link class="text-white" to="/search">Search</nuxt-link>
           </li>
           <li>
-            <nuxt-link to="/login">Login</nuxt-link>
+            <nuxt-link class="text-white" to="/login">Login</nuxt-link>
           </li>
         </ul>
       </nav>

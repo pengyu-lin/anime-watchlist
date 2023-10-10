@@ -10,7 +10,7 @@
           id="name"
           type="text" />
       </div>
-      <div>
+      <!-- <div>
         <label class="search-label" for="genre">Genre</label>
         <select class="search-input" id="genre" v-model="searchQuery.genre">
           <option disabled value="">Please Select</option>
@@ -30,7 +30,7 @@
             {{ item.year }}
           </option>
         </select>
-      </div>
+      </div> -->
       <div>
         <label class="search-label" for="season">Season</label>
         <select class="search-input" id="season" v-model="searchQuery.season">
@@ -115,7 +115,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed } from "vue";
 //get trending
 const { data: topAnime } = await useFetch("https://api.jikan.moe/v4/top/anime");
 const top6Anime = topAnime.value.data.splice(0, 6);
@@ -132,23 +132,24 @@ const { data: seasonUpcoming } = await useFetch(
 );
 const top6Upcoming = seasonUpcoming.value.data.splice(0, 6);
 
+// genre 跟 seaons 會有問題
 //get anime genre
-const { data: genre } = await useFetch("https://api.jikan.moe/v4/genres/anime");
-//sort genre in alphabetical order
-const genreInOrder = computed(() => {
-  if (!genre.value || !genre.value.data) {
-    return null;
-  }
-  const list = [];
-  for (let i = 0; i < genre.value.data.length; i++) {
-    list.push({
-      name: genre.value.data[i].name,
-      id: genre.value.data[i].mal_id,
-    });
-  }
-  list.sort((a, b) => a.name.localeCompare(b.name));
-  return list;
-});
+// const { data: genre } = await useFetch("https://api.jikan.moe/v4/genres/anime");
+// //sort genre in alphabetical order
+// const genreInOrder = computed(() => {
+//   if (!genre.value || !genre.value.data) {
+//     return null;
+//   }
+//   const list = [];
+//   for (let i = 0; i < genre.value.data.length; i++) {
+//     list.push({
+//       name: genre.value.data[i].name,
+//       id: genre.value.data[i].mal_id,
+//     });
+//   }
+//   list.sort((a, b) => a.name.localeCompare(b.name));
+//   return list;
+// });
 
 const searchQuery = ref({
   genre: "",
@@ -156,12 +157,11 @@ const searchQuery = ref({
   season: "",
 });
 
-//get year list
-const { data: years } = await useFetch("https://api.jikan.moe/v4/seasons");
+// //get year list
+// const { data: years } = await useFetch("https://api.jikan.moe/v4/seasons");
 
 //season list
 const seasons = ref(["winter", "spring", "summer", "fall"]);
-
 </script>
 
 <style lang="scss" scoped></style>

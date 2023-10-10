@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div
-      class="grid gap-4 grid-cols-5 grid-rows-5">
-      <div class="col-span-2 lg:col-span-1 row-span-5">
+    <div class="grid gap-4 grid-cols-4 xl:grid-cols-5">
+      <div class="col-span-1">
+        <div></div>
         <img
           class="w-full"
           :src="anime.data.images.webp.large_image_url"
@@ -13,57 +13,64 @@
           add to list
         </button>
       </div>
-      <div class="md:col-span-3 lg:col-span-4 row-span-1">
+      <div class="col-span-3 xl:col-span-4">
+        <p class="text-xl pb-4 xl:pb-8">{{ anime.data.title }}</p>
+        <p>
+          {{ anime.data.synopsis }}
+        </p>
         <div>
-          <p>{{ anime.data.title }}</p>
+          <div
+            v-for="item in anime.data.genres"
+            :key="item.mal_id"
+            class="inline bg-teal-400 rounded p-1 text-xs mr-2">
+            {{ item.name }}
+          </div>
+          <div
+            v-for="item in anime.data.themes"
+            :key="item.mal_id"
+            class="inline bg-violet-500 rounded p-1 text-xs mr-2 text-white">
+            {{ item.name }}
+          </div>
         </div>
       </div>
-      <div class="md:col-span-3 lg:col-span-4 row-span-4">
-        <p>{{ anime.data.synopsis }}</p>
+      <div class="grid gap-2">
+        <div class="">
+          <p class="block">Type</p>
+          <p class="block text-sm">{{ anime.data.type }}</p>
+        </div>
+        <div class="">
+          <p class="block">Source</p>
+          <p class="block text-sm">{{ anime.data.source }}</p>
+        </div>
+        <div class="">
+          <p class="block">Episodes</p>
+          <p class="block text-sm">{{ anime.data.episodes }}</p>
+        </div>
+        <div class="">
+          <p class="block">Status</p>
+          <p class="block text-sm">{{ anime.data.status }}</p>
+        </div>
+        <div class="">
+          <p class="block">Rating</p>
+          <p class="block text-sm">{{ anime.data.rating }}</p>
+        </div>
+        <div class="">
+          <p class="block">Score</p>
+          <p class="block text-sm">{{ anime.data.score }}</p>
+        </div>
+        <div class="">
+          <p class="block">Season</p>
+          <p class="block text-sm">{{ anime.data.season }}</p>
+        </div>
+        <div class="">
+          <p class="block">Year</p>
+          <p class="block text-sm">{{ anime.data.year }}</p>
+        </div>
       </div>
     </div>
-    <!-- <div
-      class="grid gap-2 grid-cols-2 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-1">
-      <div class="">
-        <p class="block">Type</p>
-        <p class="block text-sm">{{ anime.data.type }}</p>
-      </div>
-      <div class="">
-        <p class="block">Source</p>
-        <p class="block text-sm">{{ anime.data.source }}</p>
-      </div>
-      <div class="">
-        <p class="block">Episodes</p>
-        <p class="block text-sm">{{ anime.data.episodes }}</p>
-      </div>
-      <div class="">
-        <p class="block">Status</p>
-        <p class="block text-sm">{{ anime.data.status }}</p>
-      </div>
-      <div class="">
-        <p class="block">Rating</p>
-        <p class="block text-sm">{{ anime.data.rating }}</p>
-      </div>
-      <div class="">
-        <p class="block">Score</p>
-        <p class="block text-sm">{{ anime.data.score }}</p>
-      </div>
-      <div class="">
-        <p class="block">Season</p>
-        <p class="block text-sm">{{ anime.data.season }}</p>
-      </div>
-      <div class="">
-        <p class="block">Year</p>
-        <p class="block text-sm">{{ anime.data.year }}</p>
-      </div>
-    </div> -->
     <!-- <div>
       <p>Relations</p>
       <p>{{ anime.data.relations }}</p>
-    </div>
-    <div>
-      <p>Theme</p>
-      <p>{{ anime.data.theme }}</p>
     </div> -->
   </div>
 </template>
