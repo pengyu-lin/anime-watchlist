@@ -1,9 +1,9 @@
 <template>
   <div>
     <header
-      class="bg-gray-800">
+      class="shadow-sm hover:bg-gray-800 bg-gray-800/75 transition duration-500 ease-in-out">
       <nav class="p-4 flex justify-between">
-        <nuxt-link class="font-bold" to="/">Anime Watchlist</nuxt-link>
+        <nuxt-link class="font-bold text-white" to="/">Anime Watchlist</nuxt-link>
         <ul class="flex gap-4">
           <li>
             <nuxt-link class="text-white" to="/">Home</nuxt-link>
@@ -11,9 +11,9 @@
           <li>
             <nuxt-link class="text-white" to="/search">Search</nuxt-link>
           </li>
-          <li>
+          <!-- <li>
             <nuxt-link class="text-white" to="/login">Login</nuxt-link>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </header>
@@ -24,6 +24,6 @@
 
 <style lang="scss" scoped>
 .router-link-exact-active {
-  color: green;
+	color: rgb(96 165 250)
 }
 </style>
