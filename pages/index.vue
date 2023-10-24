@@ -4,6 +4,7 @@
       <p class="category-title">Popular This Season</p>
       <nuxt-link to="/now">View All</nuxt-link>
     </div>
+    <skeleton v-if="seasonPending"/>
     <div class="flex flex-nowrap overflow-x-auto mb-5">
       <div
         v-for="item in seasonNow"
@@ -24,6 +25,7 @@
       <p class="category-title">Upcoming</p>
       <nuxt-link to="/upcoming">View All</nuxt-link>
     </div>
+    <skeleton v-if="upcomingPending"/>
     <div class="flex flex-nowrap overflow-x-auto mb-5">
       <div
         v-for="item in seasonUpcoming"
@@ -46,6 +48,7 @@
       <p class="category-title">All Time Popular</p>
       <nuxt-link to="/popular">View All</nuxt-link>
     </div>
+    <skeleton v-if="topPending"/>
     <div class="flex flex-nowrap overflow-x-auto mb-5">
       <div
         v-for="item in topAnime"
@@ -68,14 +71,13 @@
 </template>
 
 <script setup>
-import { nextTick, onMounted } from "vue";
-
 // get seasons now
 const seasonNow = ref();
+const seasonPending = ref(true);
 const getSeasonNow = async () => {
   let top6;
   await nextTick();
-  const { data, pending, error, refresh } = await useFetch(
+  const { data, pending, error, refresh } = await useLazyFetch(
     "https://api.jikan.moe/v4/seasons/now"
   );
   if (error.value) {
@@ -83,11 +85,13 @@ const getSeasonNow = async () => {
   } else {
     top6 = data.value.data.splice(0, 6);
     seasonNow.value = top6;
+    seasonPending.value = pending.value;
   }
 };
 
 //get seasons upcoming
 const seasonUpcoming = ref();
+const upcomingPending = ref(true);
 const getSeasonUpcoming = async () => {
   let top6;
   await nextTick();
@@ -99,11 +103,13 @@ const getSeasonUpcoming = async () => {
   } else {
     top6 = data.value.data.splice(0, 6);
     seasonUpcoming.value = top6;
+    upcomingPending.value = pending.value;
   }
 };
 
 //get trending
 const topAnime = ref();
+const topPending = ref(true);
 const getTopAnime = async () => {
   let top6;
   await nextTick();
@@ -115,6 +121,7 @@ const getTopAnime = async () => {
   } else {
     top6 = data.value.data.splice(0, 6);
     topAnime.value = top6;
+    topPending.value = pending.value;
   }
 };
 

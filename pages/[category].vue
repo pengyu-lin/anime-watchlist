@@ -17,13 +17,14 @@
         <p class="line-clamp-2">{{ item.title }}</p>
       </div>
     </div>
+    <skeleton v-if="pending"/>
   </div>
 </template>
 
 <script setup>
-import { onMounted, computed } from "vue";
 const { category } = useRoute().params;
 
+// sets the title for the page
 const title = computed(() => {
   if (category === "now") {
     return "popular this season";
@@ -38,10 +39,16 @@ const title = computed(() => {
 const list = ref([]);
 const currentPage = ref(0);
 const lastVisiblePage = ref(1000);
+const pending = ref(false);
 const getList = async () => {
+  if(pending.value){
+    return
+  }
+  pending.value = true;
   if (currentPage.value < lastVisiblePage.value) {
     currentPage.value++;
   } else {
+    pending.value = false;
     return;
   }
   await nextTick();
@@ -63,14 +70,14 @@ const getList = async () => {
       );
       break;
   }
-  console.log(data.data.value);
   lastVisiblePage.value = data.data.value.pagination.last_visible_page;
   data.data.value.data.forEach((obj) => {
     list.value.push(obj);
   });
+  pending.value = false;
 };
 
-// check if the uuser reaches bottom of page
+// check if the user reaches bottom of page
 const handleScroll = () => {
   const isBottom =
     window.innerHeight + window.scrollY >=

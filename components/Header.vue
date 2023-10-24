@@ -1,7 +1,7 @@
 <template>
   <div>
     <header
-      class="shadow-sm hover:bg-gray-800 bg-gray-800/75 transition duration-500 ease-in-out">
+      class="shadow-sm hover:bg-gray-800 bg-gray-800/75 transition duration-500 ease-in-out fixed w-full z-20 top-0 left-0">
       <nav class="p-4 flex justify-between">
         <nuxt-link class="font-bold text-white" to="/">Anime Watchlist</nuxt-link>
         <ul class="flex gap-4">

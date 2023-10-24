@@ -56,10 +56,7 @@
         </select>
       </div>
     </div>
-    <p v-if="searchResult.length === 0" class="category-title">
-      Popular This Season
-    </p>
-    <div v-if="searchResult.length !== 0" class="flex flex-wrap mb-5">
+    <div v-if="searchPage" class="flex flex-wrap mb-5">
       <div
         v-for="item in searchResult"
         :key="item.mal_id"
@@ -75,27 +72,30 @@
         <p class="line-clamp-2">{{ item.title }}</p>
       </div>
     </div>
-    <div v-else class="flex flex-wrap mb-5">
-      <div
-        v-for="item in seasonNow"
-        :key="item.mal_id"
-        class="shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
-        <div class="aspect-w-9 aspect-h-13">
-          <nuxt-link :to="`/search/${item.mal_id}`">
-            <img
-              class="object-cover w-full h-full rounded-md"
-              :src="item.images.jpg.image_url"
-              :alt="item.title" />
-          </nuxt-link>
+    <div v-else>
+      <p class="category-title">Popular This Season</p>
+      <div class="flex flex-wrap mb-5">
+        <div
+          v-for="item in seasonNow"
+          :key="item.mal_id"
+          class="shrink-0 w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 p-2">
+          <div class="aspect-w-9 aspect-h-13">
+            <nuxt-link :to="`/search/${item.mal_id}`">
+              <img
+                class="object-cover w-full h-full rounded-md"
+                :src="item.images.jpg.image_url"
+                :alt="item.title" />
+            </nuxt-link>
+          </div>
+          <p class="line-clamp-2">{{ item.title }}</p>
         </div>
-        <p class="line-clamp-2">{{ item.title }}</p>
       </div>
     </div>
+    <skeleton v-if="pending"/>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
 //get anime genre
 const { data: genre } = await useFetch("https://api.jikan.moe/v4/genres/anime");
 //sort genre in alphabetical order
@@ -127,13 +127,20 @@ const { data: years } = await useFetch("https://api.jikan.moe/v4/seasons");
 const types = ref(["tv", "movie", "ova", "special", "ona", "music"]);
 
 // search data
+const searchPage = ref(false)
 const searchResult = ref([]);
 const currentPage = ref(0);
 const lastVisiblePage = ref(1000);
 const search = async () => {
+  if(pending.value){
+    return
+  }
+  searchPage.value = true
+  pending.value = true;
   if (currentPage.value < lastVisiblePage.value) {
     currentPage.value++;
   } else {
+    pending.value = false;
     return;
   }
   let url = `https://api.jikan.moe/v4/anime?page=${currentPage.value}&limit=24`;
@@ -156,6 +163,7 @@ const search = async () => {
   data.value.data.forEach((obj) => {
     searchResult.value.push(obj);
   });
+  pending.value = false;
 };
 
 //reset search query
@@ -165,25 +173,33 @@ const reset = () => {
   search();
 };
 
+const pending = ref(false);
+
 // get seasons now
 const seasonNow = ref([]);
 const getSeasonNow = async () => {
+  if(pending.value){
+    return
+  }
+  pending.value = true;
   if (currentPage.value < lastVisiblePage.value) {
     currentPage.value++;
   } else {
+    pending.value = false;
     return;
   }
   await nextTick();
-  const { data, pending, error, refresh } = await useFetch(
+  const { data } = await useFetch(
     `https://api.jikan.moe/v4/seasons/now?limit=24&page=${currentPage.value}`
   );
   lastVisiblePage.value = data.value.pagination.last_visible_page;
   data.value.data.forEach((obj) => {
     seasonNow.value.push(obj);
   });
+  pending.value = false;
 };
 
-// check if the uuser reaches bottom of page
+// check if the user reaches bottom of page
 const handleScroll = () => {
   const isBottom =
     window.innerHeight + window.scrollY >=

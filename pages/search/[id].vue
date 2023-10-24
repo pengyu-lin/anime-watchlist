@@ -34,10 +34,10 @@
           </div>
         </div>
       </div>
-      <div class="col-span-3">
+      <div class="col-span-3 order-2 lg:order-1" v-if="anime.trailer.embed_url">
         <p class="category-title block lg:hidden mt-5">trailer</p>
         <iframe
-          class="w-full lg:w-[80%] aspect-[16/9] mx-auto order-2 lg:order-1"
+          class="w-full lg:w-[80%] aspect-[16/9] mx-auto"
           :src="anime.trailer.embed_url"
           frameborder="0"></iframe>
       </div>
@@ -46,7 +46,7 @@
         {{ anime.synopsis }}
       </div>
     </div>
-    <p class="category-title block mt-5">characters</p>
+    <p class="category-title block mt-5" v-if="characters[0]">characters</p>
     <div class="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
       <div v-for="(item, key) in characters" :key="key" class="flex justify-between bg-white">
         <div class="flex">
@@ -80,7 +80,6 @@
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
 const { id } = useRoute().params;
 const uri = `https://api.jikan.moe/v4/anime/${id}/full`;
 const charUri = `https://api.jikan.moe/v4/anime/${id}/characters`;
