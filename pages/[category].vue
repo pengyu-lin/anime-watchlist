@@ -22,6 +22,12 @@
 </template>
 
 <script setup>
+definePageMeta({
+    documentDriven: {
+      page: false, // Keep page fetching enabled
+      surround: false // Disable surround fetching
+    }
+  }) 
 const { category } = useRoute().params;
 
 // sets the title for the page

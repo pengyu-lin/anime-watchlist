@@ -71,6 +71,12 @@
 </template>
 
 <script setup>
+definePageMeta({
+    documentDriven: {
+      page: false, // Keep page fetching enabled
+      surround: false // Disable surround fetching
+    }
+  }) 
 // get seasons now
 const seasonNow = ref();
 const seasonPending = ref(true);
